@@ -6,37 +6,37 @@
  */
 
 // Given Parameters
-const vel = 10000; // velocity (km/h)
-const acc = 3; // acceleration (m/s^2)
-const time = 3600; // seconds (1 hour)
-const d = 0; // distance (km)
-const fuel = 5000; // remaining fuel (kg)
-const fbr = 0.5; // fuel burn rate (kg/s)
+const initialVelocityKmPerHour = 10000; // velocity (km/h)
+const accelerationMetersPerSecondSquared = 3; // acceleration (m/s^2)
+const timeInSeconds = 3600; // seconds (1 hour)
+const initialDistanceKm = 0; // distance (km)
+const initialFuelKg = 5000; // remaining fuel (kg)
+const fuelBurnRateKgPerSecond = 0.5; // fuel burn rate (kg/s)
 
 // Calculate new velocity based on acceleration
-const vel2 = calcNewVel(acc, vel, time);
+const newVelocityKmPerHour = calculateNewVelocity(accelerationMetersPerSecondSquared, initialVelocityKmPerHour, timeInSeconds);
 
 // Calculate average velocity over time
-const avgVel = (vel + vel2) / 2;
+const averageVelocityKmPerHour = (initialVelocityKmPerHour + newVelocityKmPerHour) / 2;
 
 // Calculate new distance
-const d2 = d + (avgVel * (time / 3600)); // Using average velocity over time to calculate distance
+const newDistanceKm = initialDistanceKm + (averageVelocityKmPerHour * (timeInSeconds / 3600)); // Using average velocity over time to calculate distance
 
 // Calculate remaining fuel
-const rf = fuel - (fbr * (time / 3600)); // Convert time from seconds to hours for correct fuel calculation
+const remainingFuelKg = initialFuelKg - (fuelBurnRateKgPerSecond * (timeInSeconds / 3600)); // Convert time from seconds to hours for correct fuel calculation
 
 // Define function to calculate new velocity
-function calcNewVel(acc, vel, time) {
+function calculateNewVelocity(acceleration, velocity, time) {
   // Check if any parameter is invalid or has incorrect units
-  if (isNaN(acc) || isNaN(vel) || isNaN(time) || time <= 0) {
+  if (isNaN(acceleration) || isNaN(velocity) || isNaN(time) || time <= 0) {
     throw new Error('Invalid parameters or units');
   }
 
   // Convert velocity from km/h to m/s for correct calculation
-  const velMetersPerSecond = vel * (1000 / 3600); // 1 km/h = 1000 m/3600 s
+  const velocityMetersPerSecond = velocity * (1000 / 3600); // 1 km/h = 1000 m/3600 s
 
   // Calculate and return new velocity in km/h
-  return (velMetersPerSecond + (acc * time)) * (3600 / 1000); // Convert velocity back to km/h
+  return (velocityMetersPerSecond + (acceleration * time)) * (3600 / 1000); // Convert velocity back to km/h
 }
 
 console.log(`Expected Corrected Results:`);
